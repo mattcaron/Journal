@@ -85,3 +85,30 @@ Import the `journal.json` config file into `cool-retro-term` to get the configur
 1. Copy or link the script into your path.
 
 1. Run `journal` to do it all automatically.
+
+### Troubleshooting
+
+1. Backspace deletes a whole word.
+
+   Yeah, the CTRL mods are flipped in the keybinds of QMLTermWidget. You can fix it like this:
+
+   1. Find `default.keytab`:
+
+          locate default.keytab
+
+      Mine is in `usr/share/QMLTermWidget/kb-layouts/default.keytab`.
+
+   1. Edit it and change it to be like this:
+
+          # Backspace without CTRL sends '^H'; this matches XTerm behaviour
+          # BS, hex \x08, \b
+          # key Backspace -Control : "\b"
+          key Backspace +Control : "\b"
+
+          # Match xterm behaviour: Backspace sends '^?' when Control is pressed
+          # key Backspace +Control : "\x7f"
+          key Backspace -Control : "\x7f"
+
+      Note the switching of -Control and +Control.
+
+      Also, the comment is a lie. You can verify `xterm`'s behavior with `showkey -a`
