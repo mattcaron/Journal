@@ -1,0 +1,12 @@
+#!/bin/bash
+
+PROFILE="Journal"
+TODAYS_FILE=`date +%Y%m%d`.md
+
+sudo cryptsetup luksOpen $HOME/.journal.img journal
+sudo mount /dev/mapper/journal $HOME/journal
+
+cool-retro-term --fullscreen --profile "$PROFILE" --workdir $HOME/journal -e edit $TODAYS_FILE
+
+sudo umount $HOME/journal
+sudo cryptsetup close journal
